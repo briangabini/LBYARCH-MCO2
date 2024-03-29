@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 // directives
 #define MAX 134217728
 
@@ -40,8 +41,17 @@ int main() {
 		Y[i] = Y[i - 1] + 1.0;
 	}
 
+	clock_t t1;
+	t1 = clock();
 	double* Z1 = daxpy(n, A, X, Y, 0);
+	t1 = clock() - t1;
+	double time_takenC = ((double)t1) / CLOCKS_PER_SEC;
+
+	clock_t t2;
+	t2 = clock();
 	double* Z2 = daxpy(n, A, X, Y, 1);
+	t2 = clock() - t2;
+	double time_takenAsm = ((double)t2) / CLOCKS_PER_SEC;
 
 	if (n >= 10) {
 		for (int i = 0; i < 10; i++) {
@@ -53,7 +63,7 @@ int main() {
 		}
 	}
 	free(Z1);
-
+	printf("\nTime taken for C code: %f\n", time_takenC);
 
 	printf("\n");
 
@@ -69,6 +79,8 @@ int main() {
 	}
 	
 	free(Z2);
+
+	printf("\nTime taken for ASM code: %f\n", time_takenAsm);
 
 	return 0;
 }

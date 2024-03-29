@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 // directives
 #define MAX 134217728
 
@@ -16,7 +17,6 @@ int main() {
 	while (1) {
 		printf("Enter the size of the vectors: ");
 		input = scanf_s("%d", &n);
-
 		// Valid input; exit loop
 		if (input == 1 && n > 0) {
 			break;
@@ -40,47 +40,62 @@ int main() {
 		X[i] = X[i - 1] + 1.0;
 		Y[i] = Y[i - 1] + 1.0;
 	}
-
-	clock_t t1;
-	t1 = clock();
-	double* Z1 = daxpy(n, A, X, Y, 0);
-	t1 = clock() - t1;
-	double time_takenC = ((double)t1) / CLOCKS_PER_SEC;
-
-	clock_t t2;
-	t2 = clock();
-	double* Z2 = daxpy(n, A, X, Y, 1);
-	t2 = clock() - t2;
-	double time_takenAsm = ((double)t2) / CLOCKS_PER_SEC;
-
-	if (n >= 10) {
-		for (int i = 0; i < 10; i++) {
-			printf("%f\n", Z1[i]);
-		}
-	} else {
-		for (int i = 0; i < n; i++) {
-			printf("%f\n", Z1[i]);
-		}
-	}
-	free(Z1);
-	printf("\nTime taken for C code: %f\n", time_takenC);
-
-	printf("\n");
-
-	if (n >= 10) {
-		for (int i = 0; i < 10; i++) {
-			printf("%f\n", Z2[i]);
-		}
-	}
-	else {
-		for (int i = 0; i < n; i++) {
-			printf("%f\n", Z2[i]);
-		}
-	}
 	
-	free(Z2);
+	double total_time_C = 0.0;
+	double total_time_Asm = 0.0;
 
-	printf("\nTime taken for ASM code: %f\n", time_takenAsm);
+	for (int ctr = 0; ctr < 30; ctr++) {
+		printf("\nIteration %d\n\n", ctr + 1);
+
+		clock_t start, end;
+		start = clock();
+		double* Z1 = daxpy(n, A, X, Y, 0);
+		end = clock();
+		double time_takenC = ((double)(end - start)) / CLOCKS_PER_SEC;
+		total_time_C += time_takenC;
+
+		start = clock();
+		double* Z2 = daxpy(n, A, X, Y, 1);
+		end = clock();
+		double time_takenAsm = ((double)(end - start)) / CLOCKS_PER_SEC;
+		total_time_Asm += time_takenAsm;
+
+		if (n >= 10) {
+			for (int i = 0; i < 10; i++) {
+				printf("%f\n", Z1[i]);
+			}
+		}
+		else {
+			for (int i = 0; i < n; i++) {
+				printf("%f\n", Z1[i]);
+			}
+		}
+		free(Z1);
+		printf("Time taken for C code: %f\n", time_takenC);
+
+		printf("\n");
+
+		if (n >= 10) {
+			for (int i = 0; i < 10; i++) {
+				printf("%f\n", Z2[i]);
+			}
+		}
+		else {
+			for (int i = 0; i < n; i++) {
+				printf("%f\n", Z2[i]);
+			}
+		}
+
+		free(Z2);
+
+		printf("Time taken for ASM code: %f\n\n", time_takenAsm);
+	}
+
+	printf("\nTotal time taken for 30 runs (C code): %f seconds\n", total_time_C);
+	printf("Total time taken for 30 runs (ASM code): %f seconds\n", total_time_Asm);
+
+	free(X);
+	free(Y);
 
 	return 0;
 }

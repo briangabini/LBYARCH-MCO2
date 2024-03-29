@@ -8,7 +8,25 @@ extern double asmfunc(double A, double X, double Y);
 static double* daxpy(int n, double A, double* X, double* Y, int mode);
 
 int main() {
-	const int n = MAX;
+	int n = 0;
+	int input;
+
+	// Input validation
+	while (1) {
+		printf("Enter the size of the vectors: ");
+		input = scanf_s("%d", &n);
+
+		// Valid input; exit loop
+		if (input == 1 && n > 0) {
+			break;
+		}
+		else {
+			printf("Please enter a valid positive integer.\n");
+			// Clear input buffer
+			while ((input = getchar()) != '\n' && input != EOF) {}
+		}
+	}
+	
 	const double A = 2.0;
 	double* X = (double*)malloc(n * sizeof(double));
 	double* Y = (double*)malloc(n * sizeof(double));
@@ -25,16 +43,31 @@ int main() {
 	double* Z1 = daxpy(n, A, X, Y, 0);
 	double* Z2 = daxpy(n, A, X, Y, 1);
 
-	for (int i = 0; i < 10; i++) {
-		printf("%f\n", Z1[i]);
+	if (n >= 10) {
+		for (int i = 0; i < 10; i++) {
+			printf("%f\n", Z1[i]);
+		}
+	} else {
+		for (int i = 0; i < n; i++) {
+			printf("%f\n", Z1[i]);
+		}
 	}
 	free(Z1);
 
+
 	printf("\n");
 
-	for (int i = 0; i < 10; i++) {
-		printf("%f\n", Z2[i]);
+	if (n >= 10) {
+		for (int i = 0; i < 10; i++) {
+			printf("%f\n", Z2[i]);
+		}
 	}
+	else {
+		for (int i = 0; i < n; i++) {
+			printf("%f\n", Z2[i]);
+		}
+	}
+	
 	free(Z2);
 
 	return 0;

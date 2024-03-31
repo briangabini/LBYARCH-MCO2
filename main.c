@@ -12,7 +12,7 @@ static double* daxpy(int n, double A, double* X, double* Y, int mode);
 int main() {
 	int n = 0;
 	int input;
-
+	
 	// Input validation
 	while (1) {
 		printf("Enter the size of the vectors: ");
@@ -35,16 +35,19 @@ int main() {
 	// Initialize X and Y
 	X[0] = 1.0;
 	Y[0] = 11.0;
-
-	for (int i = 1; i < n; i++) {
-		X[i] = X[i - 1] + 1.0;
-		Y[i] = Y[i - 1] + 1.0;
-	}
 	
 	double total_time_C = 0.0;
 	double total_time_Asm = 0.0;
 
 	for (int ctr = 0; ctr < 30; ctr++) {
+
+		int adder = rand() % (100 + 1);
+
+		for (int i = 1; i < n; i++) {
+			X[i] = X[i - 1] + adder;
+			Y[i] = Y[i - 1] + adder;
+		}
+
 		printf("\nIteration %d\n\n", ctr + 1);
 
 		clock_t start, end;

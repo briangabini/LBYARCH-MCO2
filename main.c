@@ -96,6 +96,8 @@ int main() {
 
 	printf("\nTotal time taken for 30 runs (C code): %f seconds\n", total_time_C);
 	printf("Total time taken for 30 runs (ASM code): %f seconds\n", total_time_Asm);
+	printf("Average time taken for 30 runs (C code): %f seconds\n", total_time_C / 30);
+	printf("Average time taken for 30 runs (ASM code): %f seconds\n", total_time_Asm / 30);
 
 	free(X);
 	free(Y);

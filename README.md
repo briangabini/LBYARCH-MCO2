@@ -18,3 +18,7 @@ The program performs the DAXPY function (A * X + Y) both in C and x86-64 Assembl
 Tests were done for vector sizes 220, 224 and only up to 227since the device lags anything beyond this value. The performances were obtained by averaging out the execution 30 times. <br>
 
 For the debug configuration, both the C and Assembly kernel have minimal performance disparities, with some sizes of the vectors performing better for C, and others better in Assembly. However, for the release configuration, according to this [reference](https://community.st.com/t5/stm32cubeide-mcus/what-is-the-difference-between-debug-and-release-of-a-project/td-p/183634#:~:text=The%20difference%20is%20the%20compiler,unless%20performance%20becomes%20an%20issue.), this configuration optimizes the compiler, which may have significantly improved C’s performance compared to Assembly, which may have resulted in higher disparities in their performances.
+
+## Appendix
+All outputs: <br>
+[LBYARCH MCO2.pdf](https://github.com/briangabini/LBYARCH-MCO2/files/14835191/LBYARCH.MCO2.pdf)
